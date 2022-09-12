@@ -31,6 +31,7 @@
 #include "Icon/Entry.h"
 #include "IoTeX/Entry.h"
 #include "Kusama/Entry.h"
+#include "Westend/Entry.h"
 #include "NEAR/Entry.h"
 #include "NEO/Entry.h"
 #include "NULS/Entry.h"
@@ -78,6 +79,7 @@ Harmony::Entry harmonyDP;
 Icon::Entry iconDP;
 IoTeX::Entry iotexDP;
 Kusama::Entry kusamaDP;
+Westend::Entry WestendDP;
 Nano::Entry nanoDP;
 NEAR::Entry nearDP;
 Nebulas::Entry nebulasDP;
@@ -148,6 +150,7 @@ CoinEntry* coinDispatcher(TWCoinType coinType) {
         case TWBlockchainThorchain: entry = &thorchainDP; break;
         case TWBlockchainRonin: entry = &roninDP; break;
         case TWBlockchainKusama: entry = &kusamaDP; break;
+        case TWBlockchainWestend: entry = &WestendDP; break;
         case TWBlockchainNervos: entry = &NervosDP; break;
         case TWBlockchainEverscale: entry = &EverscaleDP; break;
         // end_of_coin_dipatcher_switch_marker_do_not_modify

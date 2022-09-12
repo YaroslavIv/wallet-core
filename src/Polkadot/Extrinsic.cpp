@@ -15,6 +15,7 @@ static constexpr uint8_t sigTypeEd25519 = 0x00;
 static constexpr uint8_t extrinsicFormat = 4;
 static constexpr uint32_t multiAddrSpecVersion = 28;
 static constexpr uint32_t multiAddrSpecVersionKsm = 2028;
+static constexpr uint32_t multiAddrSpecVersionWst = 20;
 
 static const std::string balanceTransfer = "Balances.transfer";
 static const std::string utilityBatch = "Utility.batch";
@@ -48,17 +49,34 @@ static std::map<const std::string, Data> kusamaCallIndices = {
     {utilityBatch, Data{0x18, 0x02}},
 };
 
+static std::map<const std::string, Data> westendCallIndices = {
+    {balanceTransfer, Data{0x04, 0x00}},
+    {stakingBond, Data{0x06, 0x00}},
+    {stakingBondExtra, Data{0x06, 0x01}},
+    {stakingUnbond, Data{0x06, 0x02}},
+    {stakingWithdrawUnbond, Data{0x06, 0x03}},
+    {stakingNominate, Data{0x06, 0x05}},
+    {stakingChill, Data{0x06, 0x06}},
+    {utilityBatch, Data{0x18, 0x02}},
+};
+
 static Data getCallIndex(TWSS58AddressType network, const std::string& key) {
     if (network == TWSS58AddressTypePolkadot) {
         return polkadotCallIndices[key];
     }
-    // network == TWSS58AddressTypeKusama
-    return kusamaCallIndices[key];
+    else if (network == TWSS58AddressTypeKusama) {
+        return kusamaCallIndices[key];
+    }
+    else if (network == TWSS58AddressTypeWestend) {
+        return westendCallIndices[key];
+    }
 }
 
 bool Extrinsic::encodeRawAccount(TWSS58AddressType network, uint32_t specVersion) {
     if ((network == TWSS58AddressTypePolkadot && specVersion >= multiAddrSpecVersion) ||
-        (network == TWSS58AddressTypeKusama && specVersion >= multiAddrSpecVersionKsm)) {
+        (network == TWSS58AddressTypeKusama && specVersion >= multiAddrSpecVersionKsm) ||
+        (network == TWSS58AddressTypeWestend && specVersion >= multiAddrSpecVersionWst)
+        ) {
         return false;
     }
     return true;
